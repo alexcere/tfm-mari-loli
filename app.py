@@ -158,53 +158,20 @@ app.layout = html.Div(
                 ),
                 html.Div(
                     [
-                        dcc.Loading(dcc.Graph(id='original-image'))
-                    ],
-                    id="imagen-original container",
-                    className="pretty_container seven columns",
-                ),
-            ],
-            className="row flex-display",
-        ),
-        html.Div(
-            [
-
-                html.Div(
-                    [
-                        dcc.Loading(dcc.Graph(id='transformed-image'))
-                    ],
-                    id="transformed image container",
-                    className="pretty_container five columns",
-                ),
-                html.Div(
-                    [
-                        dcc.Loading(dcc.Graph(id='3d-cenital'))
-                    ],
-                    id="3d cenital container",
-                    className="pretty_container seven columns",
-                ),
-            ],
-            className="row flex-display",
-        ),
-        html.Div(
-            [
-
-                html.Div(
-                    [
                         dcc.Loading(dcc.Graph(id='contour')),
                     ],
                     id="contour-container",
-                    className="pretty_container five columns",
-                ),
-                html.Div(
-                    [
-                        dcc.Loading(dcc.Graph(id='3d-above')),
-                    ],
-                    id="3d-above-container",
                     className="pretty_container seven columns",
                 ),
             ],
             className="row flex-display",
+        ),
+        html.Div(
+            [
+                dcc.Loading(dcc.Graph(id='3d-cenital'))
+            ],
+            id="transformed image container",
+            className="pretty_container",
         ),
         html.Div(
             [
