@@ -23,6 +23,8 @@ app = dash.Dash(
     __name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}]
 )
 
+colorname = 'terrain'
+
 # workpath = os.path.dirname(os.path.abspath(__file__))
 # os.chdir(workpath)
 onlyfiles = [f for f in listdir(str(DATA_PATH)) if isfile(join(str(DATA_PATH), f))]
@@ -44,7 +46,6 @@ app.title="Paisajes en zonas de tránsito"
 # Create app layout
 app.layout = html.Div(
     [
-        dcc.Store(id="current-gray"),
         # empty Div to trigger javascript file for graph resizing
         html.Div(id="output-clientside"),
         html.Div(
@@ -151,20 +152,6 @@ app.layout = html.Div(
                             # multiple=True,
                             # className=""
                         ),
-                        html.P(
-                            "Elección de color para las figuras",
-                        ),
-                        dcc.RadioItems(
-                            id='color-select',
-                            options= [
-                                {'label': "Terreno", 'value': 'terrain'},
-                                {'label': "Escala de grises", 'value': 'Greys'}
-                            ],
-                            # style={
-                            #     'textAlign': 'center',
-                            # },
-                            value='terrain',
-                        ),
                     ],
                     className="pretty_container five columns",
                     id="parameter-selection",
@@ -247,11 +234,7 @@ app.layout = html.Div(
 )
 
 
-@app.callback([Output('original-image', 'figure'), Output('transformed-image', 'figure'),
-               Output('3d-cenital', 'figure'),
-               Output('contour', 'figure'), Output('3d-above', 'figure')],
-              [Input('current-gray', 'data'), Input('color-select', 'value')])
-def update_displayed_graphs(img, colorname):
+def update_displayed_graphs(img):
     if img is None:
         raise PreventUpdate
     img = np.asarray(img)
@@ -271,7 +254,9 @@ def update_graphs_from_examples(filename):
     return mpimg.imread(str(DATA_PATH) + "/" + str(filename) + '.png')
 
 
-@app.callback(Output('current-gray', 'data'),
+@app.callback([Output('original-image', 'figure'), Output('transformed-image', 'figure'),
+               Output('3d-cenital', 'figure'),
+               Output('contour', 'figure'), Output('3d-above', 'figure')],
               [Input('file-select', 'value'), Input('upload-image', 'contents')])
 def update_graphs(filename, contents):
     ctx = dash.callback_context
@@ -280,13 +265,15 @@ def update_graphs(filename, contents):
     if change == 'file-select':
         if filename is None:
             raise PreventUpdate
-        return update_graphs_from_examples(filename)
+        img = update_graphs_from_examples(filename)
     elif change == 'upload-image':
-        return update_graphs_from_upload(contents)
+        img = update_graphs_from_upload(contents)
     else:
         if filename is None:
             raise PreventUpdate
-        return update_graphs_from_examples(filename)
+        img = update_graphs_from_examples(filename)
+
+    return update_displayed_graphs(img)
 
 server = app.server
 
