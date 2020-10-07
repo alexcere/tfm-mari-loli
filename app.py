@@ -22,6 +22,7 @@ DATA_PATH = (PATH.joinpath("data")).resolve()
 app = dash.Dash(
     __name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}]
 )
+server = app.server
 
 # workpath = os.path.dirname(os.path.abspath(__file__))
 # os.chdir(workpath)
