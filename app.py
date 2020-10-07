@@ -22,7 +22,6 @@ DATA_PATH = (PATH.joinpath("data")).resolve()
 app = dash.Dash(
     __name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}]
 )
-server = app.server
 
 # workpath = os.path.dirname(os.path.abspath(__file__))
 # os.chdir(workpath)
@@ -289,6 +288,7 @@ def update_graphs(filename, contents):
             raise PreventUpdate
         return update_graphs_from_examples(filename)
 
+server = app.server
 
 # Main
 if __name__ == "__main__":
