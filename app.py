@@ -241,7 +241,7 @@ def update_displayed_graphs(img):
     gray = generate_process(img)
     return [plotly_imshow_plain_figure(img),
             plotly_imshow_plain_figure_gray(gray), plotly_surface_plot_isometric(gray, colorname),
-            plotly_contour_lines(gray, colorname), plotly_surface_plot_from_above(gray,colorname)]
+            plotly_contour_lines(gray, colorname)]
 
 
 def update_graphs_from_upload(contents):
@@ -256,7 +256,7 @@ def update_graphs_from_examples(filename):
 
 @app.callback([Output('original-image', 'figure'), Output('transformed-image', 'figure'),
                Output('3d-cenital', 'figure'),
-               Output('contour', 'figure'), Output('3d-above', 'figure')],
+               Output('contour', 'figure')],
               [Input('file-select', 'value'), Input('upload-image', 'contents')])
 def update_graphs(filename, contents):
     ctx = dash.callback_context
